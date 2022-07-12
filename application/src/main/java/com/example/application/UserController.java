@@ -3,6 +3,7 @@ package com.example.application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,4 +70,30 @@ public class UserController {
       return "redirect:/user/list";
     }
 
+  @RequestMapping("/user/{id}/edit")
+  public String edit(Model m,
+  @PathVariable Integer id
+  ) {
+    UserEntity u = userRepository.findById(id).get();
+    m.addAttribute("userData", u);
+
+    return "user/edit";
+
+  }
+
+  @RequestMapping("/user/{id}/update")
+  public String updaate(Model m,
+  @PathVariable Integer id,
+  @ModelAttribute UserEntity user
+  ) {
+  
+  m.addAttribute("userData", user);
+  
+
+  userRepository.save(user);
+
+  return "redirect:/user/list";
+
+
+  }
 }
