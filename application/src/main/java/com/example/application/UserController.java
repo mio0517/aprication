@@ -14,18 +14,22 @@ public class UserController {
   @Autowired
   private UserRepository userRepository; 
   @RequestMapping("/user/list")
-  public String List(Model m) {
-   
-    //List<UserEntity> list = userRepository.findAll();
-
-    m.addAttribute("userList", userRepository.findAllOrderByidDesc());
+  public String list(Model m,
+  @RequestParam(name = "id", required = false, defaultValue = "0") int id
+  ) {
+    if (id == 0)
+    m.addAttribute("userList", userRepository.findAll());
+      else
+      m.addAttribute("userList", userRepository.findById(id).get());
 
     return "/user/list";
   }
 
   @RequestMapping("/user/{id}") 
   public String show(Model m,
-  @PathVariable int id) {
+  @PathVariable int id
+  
+  ) {
 
     UserEntity user = userRepository.findById(id).get();
     m.addAttribute("userData", user);
