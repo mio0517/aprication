@@ -60,5 +60,13 @@ public class UserController {
   return "redirect:/user/list";  //redirect切り替える　指定したurlに
 }
 
+  @RequestMapping("/user/{id}/delete")
+  public String delete(Model m,
+    @PathVariable Integer id
+    ) {
+      userRepository.deleteById(id);
+
+      return "redirect:/user/list";
+    }
 
 }
